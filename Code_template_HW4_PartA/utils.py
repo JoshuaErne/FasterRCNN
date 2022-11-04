@@ -1,6 +1,14 @@
 import numpy as np
 import torch
 from functools import partial
+import torch
+from torch.nn import functional as F
+from torchvision import transforms
+from torch import nn, Tensor
+import matplotlib.pyplot as plt
+import torchvision
+from scipy import stats as st
+
 def MultiApply(func, *args, **kwargs):
     pfunc = partial(func, **kwargs) if kwargs else func
     map_results = map(pfunc, *args)
@@ -11,8 +19,17 @@ def MultiApply(func, *args, **kwargs):
 def IOU(boxA, boxB):
     ##################################
     #TODO compute the IOU between the boxA, boxB boxes
+    boxA_conv = torch.zeros_like(boxA)
+    boxA_conv[:,0] = boxA[:,0] - (boxA[:,2]/2)
+    boxA_conv[:,2] = boxA[:,0] + (boxA[:,2]/2)
+    boxA_conv[:,1] = boxA[:,1] - (boxA[:,3]/2)
+    boxA_conv[:,3] = boxA[:,1] + (boxA[:,3]/2)
+
+    
+
+    iou_torched = torchvision.ops.box_iou(boxA_conv, boxB)
     ##################################
-    return iou
+    return iou_torched
 
 
 
@@ -32,6 +49,12 @@ def output_flattening(out_r,out_c,anchors):
     #######################################
     # TODO flatten the output tensors and anchors
     #######################################
+
+    bz = out_r.squeeze(0).shape[0]
+    flatten_regr = out_r.squeeze(0).permute(0,2,3,1).reshape(-1,4)
+    flatten_clas = out_c.squeeze(1).reshape(-1)
+    flatten_anchors = anchors.reshape(-1,4).repeat(bz,1)
+
     return flatten_regr, flatten_clas, flatten_anchors
 
 
@@ -46,6 +69,17 @@ def output_flattening(out_r,out_c,anchors):
 #       box: (total_number_of_anchors*bz,4)
 def output_decoding(flatten_out,flatten_anchors, device='cpu'):
     #######################################
-    # TODO decode the output
+    # TODO decode the 
+    conv_box = torch.zeros_like(flatten_anchors)
+    box = torch.zeros_like(flatten_anchors)
+    conv_box[:,3] = torch.exp(flatten_out[:,3]) * flatten_anchors[:,3]
+    conv_box[:,2] = torch.exp(flatten_out[:,2]) * flatten_anchors[:,2]
+    conv_box[:,1] = (flatten_out[:,1] * flatten_anchors[:,2]) + flatten_anchors[:,1]
+    conv_box[:,0] = (flatten_out[:,0] * flatten_anchors[:,3]) + flatten_anchors[:,0]
+
+    box[:,0] = conv_box[:,0] - (conv_box[:,2]/2)
+    box[:,1] = conv_box[:,1] - (conv_box[:,3]/2)
+    box[:,2] = conv_box[:,0] + (conv_box[:,2]/2)
+    box[:,3] = conv_box[:,1] + (conv_box[:,3]/2)
     #######################################
     return box
