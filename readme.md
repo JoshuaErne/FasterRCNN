@@ -26,22 +26,22 @@ Note: Change the path the your directory for the dataset
 
 
 ## Training and Validation curves that show the total loss, the loss of the classifier and the loss of the regressor of the Box Head.
-<img src=images/train_loss_curve.png height="500" width="500" > <p></p>
+<img src=images/train_loss_curve.png height="252" width="335" > <p></p>
 
-<img src=images/train_class_curve.png height="500" width="500" > <p></p>
+<img src=images/train_class_curve.png height="252" width="335" > <p></p>
 
-<img src=images/train_reg_curve.png height="500" width="500" > <p></p>
+<img src=images/train_reg_curve.png height="252" width="335" > <p></p>
 
 ## top 20 boxes produced by the Box Head
-<img src=images/20_boxes_vis_1.png height="500" width="500" > <p></p>
+<img src=images/20_boxes_vis_1.png height="252" width="335" > <p></p>
 
-<img src=images/20_boxes_vis_2.png height="500" width="500" > <p></p>
+<img src=images/20_boxes_vis_2.png height="252" width="335" > <p></p>
 
-<img src=images/20_boxes_vis_3.png height="500" width="500" > <p></p>
+<img src=images/20_boxes_vis_3.png height="252" width="335" > <p></p>
 
-<img src=images/20_boxes_vis_4.png height="500" width="500" > <p></p>
+<img src=images/20_boxes_vis_4.png height="252" width="335" > <p></p>
 
-<img src=images/20_boxes_vis_5.png height="500" width="500" > <p></p>
+<img src=images/20_boxes_vis_5.png height="252" width="335" > <p></p>
 
 ## Post-Process Visualisation 
 <img src=images/postprocess_1.png height="500" width="500" > <p></p>
