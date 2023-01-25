@@ -1,3 +1,0 @@
-# FasterRCNN
-
-#FASTER RCNN
